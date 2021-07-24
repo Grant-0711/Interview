@@ -1,0 +1,7 @@
+首先求sessionid，
+
+求法是对dwd层pagelog数据先用if lastpageid是否为null来获取会话开始时间，之后开窗，按照设备id分组，按照访问时间排序，利用first value，指定参数跳过null值，指定窗口上边界为unbounded preceding and current row，这样取到同一次会话的所有行，
+
+把开窗取到的值和会话id拼接起来，形成会话id
+
+之后按照会话id对数据进行分区，然后开窗利用lead函数取到路径的sink，使用concat进行拼接，然后对其求聚合值，就可以形成数据制作桑吉图
