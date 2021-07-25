@@ -140,11 +140,27 @@ select  multiif（num = 1？1，num = 2？2，3）
 
 数据一致性
 
-物化视图
+# 物化视图
+
+实际就是可以对查询结果做一个持久化存储，查询可以是单张表的子集也可以是多表join之后的结果，相当于对结果做一个快照，语法是create materialize view 。。。as select 。。。
 
 materializeMysql引擎
 
-常见问题
+20.8版本之后ck可以伪装成mysql的从机去监控mysql的表，直接实现mysql的动态数据抓取，而不同经过canal，maxwell，cdc这样的工具
+
+# 常见问题
+
+## 分布式表某个节点创建失败
+
+分布式建表的时候某个节点上没有建表但是client返回是正常的，查看日志有
+
+other create executor at the same times
+
+解决办法是直接重启改节点的ck服务
+
+## 副本表的数据不一致
+
+副本表的数据不一致，解决办法是在副本节点上创建一张本地表，表的结构从其他节点获取，然后该表会从其他节点同步数据
 
 # 过期时间
 
