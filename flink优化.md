@@ -1,0 +1,9 @@
+rocksbd大状态的优化
+
+rocksdb的写入是基于LSM tree的所以写请求效率比较高
+
+所以使用rocksdb的性能瓶颈主要是读效率的提升，方法是可以给rocksdb的磁盘存储目录配置多目录，在flink-conf。xml中有相关配置项
+
+
+
+数据倾斜情况的检测，是ui界面的subtask的receivced bytes 显示，如果有数据倾斜的话每个子任务的接收数据量差距会比较大
