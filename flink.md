@@ -56,6 +56,24 @@ watermark六点
 
 
 
+状态：大分类是管理状态和raw state
+
+managed state 分为operator state 和 keyed state
+
+ck：基于chandy lamport 分布式快照
+
+具体过程
+
+jm向source算子 triger ck
+
+source task 在流中插入barrier n
+
+source向下游传递 barrier n 
+
+当下游收到所有的 barrier n 之后开始制作本次快照
+
+完成之后向jm汇报，jm收到所有任务的汇报之后认为关于barrier n 的这一次ck完成，然后会向持久化存储中再存储一份ck的元数据
+
 
 
 
