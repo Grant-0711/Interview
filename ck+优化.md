@@ -66,6 +66,18 @@ replacingMergeTree
 
 并不是所有的表都有副本，要指定引擎为replacingMergeTree，并且insert ，alter操作会自动复制，但是create table，drop，rename等只会在单服务器执行
 
+实现方式是现在metrika。xml文件下修改 相关zookeeperl cluster 配置
+
+然后在建表的时候使用replicaingmergertree 要指定存储位置和节点
+
+高并发（分片集群）
+
+把一个表的数据拆分成不同的片放在不同的节点，通过distributed 引擎再拼接起来使用
+
+使用方法是先在每台节点按照ck，修改配置文件metrika.xml文件，在其中指定一个cluster
+
+
+
 配置方面修改metrika.xml修改clickhouse-remote-server相关参数，指定不同分片和分片的副本，然后分发，修改对应的分片的索引
 
 然后创建分布式表来使用
@@ -75,12 +87,6 @@ create table  xxx  on cluster xxx（设置的集群名）
 （字段）
 
 engine = distributed（集群名，表名，主键）
-
-高并发（分片集群）
-
-把一个表的数据拆分成不同的片放在不同的节点，通过distributed 引擎再拼接起来使用
-
-使用方法是先在每台节点按照ck，修改配置文件metrika.xml文件，在其中指定一个cluster
 
 查看sql执行计划
 
